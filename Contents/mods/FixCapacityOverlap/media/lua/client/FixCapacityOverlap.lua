@@ -80,22 +80,24 @@ function ISInventoryPage:prerender()
 
     local roundedWeight = round(self.totalWeight, 2)
     local weightText
+    local weightPosX
     if self.capacity then
         if self.inventoryPane.inventory == getSpecificPlayer(self.player):getInventory() then
             weightText = roundedWeight .. " / " .. getSpecificPlayer(self.player):getMaxWeight()
-            self:drawTextRight(weightText, self.pinButton:getX(), 0, 1,1,1,1);
+            weightPosX = self.pinButton:getX()
         else
             weightText = roundedWeight .. " / " .. self.capacity
-            self:drawTextRight(weightText, self.pinButton:getX(), 0, 1,1,1,1);
+            weightPosX = self.pinButton:getX()
         end
     else
         weightText = roundedWeight .. ""
-        self:drawTextRight(weightText, self.width - 20, 0, 1,1,1,1);
+        weightPosX = self.width - 20
     end
+    self:drawTextRight(weightText, weightPosX, 0, 1,1,1,1);
 
     -- local weightWid = getTextManager():MeasureStringX(UIFont.Small, "99.99 / 99")
     local weightWid = getTextManager():MeasureStringX(UIFont.Small, weightText)
-    weightWid = math.max(90, weightWid + 20)
+    weightWid = math.max(90, weightWid + 10)
     self.transferAll:setX(self.pinButton:getX() - weightWid - getTextManager():MeasureStringX(UIFont.Small, getText("IGUI_invpage_Transfer_all")));
     if not self.onCharacter or self.width < 370 then
         self.transferAll:setVisible(false)
@@ -105,7 +107,7 @@ function ISInventoryPage:prerender()
 
     if self.title and not self.onCharacter then
         local fontHgt = getTextManager():getFontHeight(self.font)
-        self:drawTextRight(self.title, self.width - 20 - weightWid, (titleBarHeight - fontHgt) / 2, 1,1,1,1);
+        self:drawTextRight(self.title, weightPosX - weightWid, (titleBarHeight - fontHgt) / 2, 1,1,1,1);
     end
 
     -- self:drawRectBorder(self:getWidth()-32, 15, 32, self:getHeight()-16-6, self.borderColor.a, self.borderColor.r, self.borderColor.g, self.borderColor.b);
