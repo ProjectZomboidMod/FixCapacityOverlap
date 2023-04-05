@@ -1,4 +1,10 @@
+local ISInventoryPage_prerender = ISInventoryPage.prerender
+
 function ISInventoryPage:prerender()
+    if self.onCharacter then
+        return ISInventoryPage_prerender(self)
+    end
+
     if self.blinkContainer then
         if not self.blinkAlphaContainer then self.blinkAlphaContainer = 0.7; self.blinkAlphaIncreaseContainer = false; end
         if not self.blinkAlphaIncreaseContainer then
@@ -73,18 +79,23 @@ function ISInventoryPage:prerender()
     self.totalWeight = ISInventoryPage.loadWeight(self.inventoryPane.inventory);
 
     local roundedWeight = round(self.totalWeight, 2)
+    local weightText
     if self.capacity then
         if self.inventoryPane.inventory == getSpecificPlayer(self.player):getInventory() then
-            self:drawTextRight(roundedWeight .. " / " .. getSpecificPlayer(self.player):getMaxWeight(), self.pinButton:getX(), 0, 1,1,1,1);
+            weightText = roundedWeight .. " / " .. getSpecificPlayer(self.player):getMaxWeight()
+            self:drawTextRight(weightText, self.pinButton:getX(), 0, 1,1,1,1);
         else
-            self:drawTextRight(roundedWeight .. " / " .. self.capacity, self.pinButton:getX(), 0, 1,1,1,1);
+            weightText = roundedWeight .. " / " .. self.capacity
+            self:drawTextRight(weightText, self.pinButton:getX(), 0, 1,1,1,1);
         end
     else
-        self:drawTextRight(roundedWeight .. "", self.width - 20, 0, 1,1,1,1);
+        weightText = roundedWeight .. ""
+        self:drawTextRight(weightText, self.width - 20, 0, 1,1,1,1);
     end
 
-    local weightWid = getTextManager():MeasureStringX(UIFont.Small, "99.99 / 99")
-    weightWid = math.max(90, weightWid + 10)
+    -- local weightWid = getTextManager():MeasureStringX(UIFont.Small, "99.99 / 99")
+    local weightWid = getTextManager():MeasureStringX(UIFont.Small, weightText)
+    weightWid = math.max(90, weightWid + 20)
     self.transferAll:setX(self.pinButton:getX() - weightWid - getTextManager():MeasureStringX(UIFont.Small, getText("IGUI_invpage_Transfer_all")));
     if not self.onCharacter or self.width < 370 then
         self.transferAll:setVisible(false)
