@@ -1,5 +1,23 @@
-local ISInventoryPage_prerender = ISInventoryPage.prerender
+local activatedMods = getActivatedMods()
 
+-- https://steamcommunity.com/sharedfiles/filedetails/?id=2880687295
+local compatibilityHack_RenameContainers = function() end
+if activatedMods:contains("RenameContainers") then
+    compatibilityHack_RenameContainers = function(self)
+        if self.titleButton and not self.titleButton.setXHack then
+            self.titleButton.setXHack = self.titleButton.setX
+            self.titleButton.setX = function()
+                self:drawTextureScaled(self.titlebarbkg, self.weightX - self.weightWid, 1, self.weightWid, self:titleBarHeight() - 2, 1, 1, 1, 1);
+                self:drawTextRight(self.weightText, self.weightX, 0, 1,1,1,1);
+                local titleWid = getTextManager():MeasureStringX(UIFont.Small, self.title)
+                local x = self.weightX - self.weightWid - titleWid - 5
+                self.titleButton:setXHack(x)
+            end
+        end
+    end
+end
+
+local ISInventoryPage_prerender = ISInventoryPage.prerender
 function ISInventoryPage:prerender()
     if self.onCharacter then
         return ISInventoryPage_prerender(self)
@@ -107,6 +125,8 @@ function ISInventoryPage:prerender()
         local fontHgt = getTextManager():getFontHeight(self.font)
         self:drawTextRight(self.title, self.weightX - self.weightWid, (titleBarHeight - fontHgt) / 2, 1,1,1,1);
     end
+
+    compatibilityHack_RenameContainers(self)
 
     -- self:drawRectBorder(self:getWidth()-32, 15, 32, self:getHeight()-16-6, self.borderColor.a, self.borderColor.r, self.borderColor.g, self.borderColor.b);
     self:setStencilRect(0,0,self.width+1, height);
