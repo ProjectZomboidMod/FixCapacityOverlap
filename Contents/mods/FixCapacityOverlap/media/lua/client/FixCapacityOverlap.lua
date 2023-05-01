@@ -1,8 +1,9 @@
 local activatedMods = getActivatedMods()
 
 -- https://steamcommunity.com/sharedfiles/filedetails/?id=2880687295
+-- https://steamcommunity.com/sharedfiles/filedetails/?id=2867163008
 local compatibilityHack_RenameContainers = function() end
-if activatedMods:contains("RenameContainers") then
+if activatedMods:contains("RenameContainers") or activatedMods:contains("EverythingHasAName") then
     compatibilityHack_RenameContainers = function(self)
         if self.titleButton and not self.titleButton.setXHack then
             self.titleButton.setXHack = self.titleButton.setX

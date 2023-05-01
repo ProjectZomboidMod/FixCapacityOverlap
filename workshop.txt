@@ -1,8 +1,8 @@
 version=1
 id=2957932451
 title=Fix Capacity Overlap
-description=[h2]Works on 41.78.16/SP/MP[/h2]
-description=[h2]Safe to add/remove[/h2]
+description=[h2]Works on 41.78.16 SP/MP[/h2]
+description=[h2]Safe to add to/remove from existing saves[/h2]
 description=
 description=The text of container name will now dynamically change its position to leave space for displaying the weight and capacity. Especially useful for big font size (2x, 3x, 4x).
 description=
@@ -11,6 +11,7 @@ description=
 description=[h1]Compatibility[/h1]
 description=[url=https://steamcommunity.com/sharedfiles/filedetails/?id=2577903374]AutoLoot[/url]
 description=[url=https://steamcommunity.com/sharedfiles/filedetails/?id=2871469707]Easy Drop'n'Loot[/url]
+description=[url=https://steamcommunity.com/sharedfiles/filedetails/?id=2867163008]Everything Has a Name[/url]
 description=[url=https://steamcommunity.com/sharedfiles/filedetails/?id=2847184718]Proximity Inventory[/url]
 description=[url=https://steamcommunity.com/sharedfiles/filedetails/?id=2880687295]Rename Containers[/url]
 description=
